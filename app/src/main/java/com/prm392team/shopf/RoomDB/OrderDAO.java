@@ -22,7 +22,10 @@ public interface OrderDAO {
     @Insert
     void insertOrder(Order orders);
 
-    @Delete
-    void deleteOrder(Order orders);
+    @Insert
+    void insertOrderAll(List<Order> orderList);
+
+    @Query("DELETE FROM `order` WHERE orderId = :orderIdV")
+    void deleteOrder(int orderIdV);
 
 }

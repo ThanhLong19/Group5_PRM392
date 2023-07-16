@@ -3,6 +3,7 @@ package com.prm392team.shopf;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prm392team.shopf.Adapter.CartAdapter;
+import com.prm392team.shopf.Entity.Order;
+import com.prm392team.shopf.Entity.Product;
+import com.prm392team.shopf.Entity.User;
 import com.prm392team.shopf.Helper.ManagementCart;
 import com.prm392team.shopf.Interface.ChangeNumberOfItems;
+import com.prm392team.shopf.RoomDB.FFoodDB;
+import com.prm392team.shopf.RoomDB.OrderDAO;
+import com.prm392team.shopf.RoomDB.UserDAO;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CartListActivity extends AppCompatActivity {
@@ -67,13 +77,49 @@ public class CartListActivity extends AppCompatActivity {
         checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<Product> products = managementCart.getListCart();
+                SharedPreferences sharedPreferences = getSharedPreferences("mypref", MODE_PRIVATE);
+                String user = sharedPreferences.getString("user", null);
+                FFoodDB fFoodDB = FFoodDB.getInstance(CartListActivity.this);
+                UserDAO userDAO = fFoodDB.userDAO();
+                OrderDAO orderDAO = fFoodDB.orderDAO();
+                List<Order> orders = orderDAO.getAllOrder();;
+                if(user.length() > 0){
+                    User user1 = userDAO.getAccount(user);
+                    for (int i=0; i < products.size(); i++){
+                        Product product = products.get(i);
+                        Order order = new Order();
+                        order.setProductId(product.getProductId());
+                        order.setOrderAddress("Ha Noi");
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            LocalDateTime currentDateTime = LocalDateTime.now();
+                            order.setOrderDate(currentDateTime+"");
+                        }
+                        order.setUserId(user1.getUserId());
+                        order.setStatus(1);
+
+                        Order category7=new Order(product.getProductId(), user1.getUserId(),
+                                "10/03/2023", (product.getPrice()* product.getQuantity())
+                                , "Dom B, Đại học FPT", 1);
+                        orderDAO.insertOrder(category7);
+
+                         orders = orderDAO.getAllOrder();
+
+                    }
+                }
+
+
+
+
                 Toast.makeText(CartListActivity.this, "Đặt hàng thành công !", Toast.LENGTH_SHORT).show();
+
                 managementCart.ListClear();
                 recreate();
             }
         });
-
     }
+
+
 
     private void bindingView() {
         recyclerViewList=findViewById(R.id.recycleView);

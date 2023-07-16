@@ -77,7 +77,7 @@ public class OrderShippingFragment extends Fragment {
         bindingView();
         bindingAction();
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(data);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(data,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         rcv.setLayoutManager(layoutManager);
         rcv.setAdapter(adapter);

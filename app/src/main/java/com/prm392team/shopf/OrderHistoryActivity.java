@@ -1,6 +1,9 @@
 package com.prm392team.shopf;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +25,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     FFoodDB db;
     private OrderDAO orderDAO;
     UserDAO userDAO;
+    Button btncancer;
     private void bindingView(){
         rcv = findViewById(R.id.rcv_order_detail);
         data = new ArrayList<>();
@@ -33,6 +37,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
         //data = orderDAO.getAllOrder();
         User user = getUser();
         data = orderDAO.loadAllOrderByUIds(user.getUserId());
+
+
     }
 
     private User getUser() {
@@ -42,16 +48,25 @@ public class OrderHistoryActivity extends AppCompatActivity {
         return u;
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
         bindingView();
         bindingAction();
-
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(data);
+         data = FFoodDB.getInstance(this).orderDAO().getAllOrder();
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(data,this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rcv.setLayoutManager(layoutManager);
         rcv.setAdapter(adapter);
+
+        btncancer = findViewById(R.id.btnCancer);
+//        btncancer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 }
