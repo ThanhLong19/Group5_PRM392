@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.prm392team.shopf.AccountActivity;
 import com.prm392team.shopf.Fragment.OrderCompleteFragment;
 import com.prm392team.shopf.Fragment.OrderShippingFragment;
+import com.prm392team.shopf.ItemManagerActivity;
 import com.prm392team.shopf.LoginActivity;
 import com.prm392team.shopf.OrderDetailActivity;
 import com.prm392team.shopf.OrderHistoryActivity;
@@ -36,6 +37,7 @@ public class AccountFragment extends Fragment {
     private ConstraintLayout farvoriteProduct;
     private ConstraintLayout orderStatus;
     private ConstraintLayout btnLogout;
+    private  ConstraintLayout btnItemManager;
     private TextView txtusername;
     private ImageView imgAva;
     int userId;
@@ -73,6 +75,7 @@ public class AccountFragment extends Fragment {
         btnLogout = view.findViewById((R.id.btnLogout));
         txtusername = view.findViewById((R.id.txtusername));
         imgAva = view.findViewById((R.id.imgAva));
+        btnItemManager = view.findViewById(R.id.itemManagerBtn);
         txtusername.setText(KEY_USER);
         imgAva.setImageResource(R.drawable.profile);
     }
@@ -82,7 +85,7 @@ public class AccountFragment extends Fragment {
         farvoriteProduct.setOnClickListener(this::onClickFavoriteProduct);
         orderStatus.setOnClickListener(this::onClickViewOrderStatus);
         btnLogout.setOnClickListener(this::onBtnLogoutClick);
-
+        btnItemManager.setOnClickListener(this::onBtnItemManager);
 
 
         if(getActivity().getIntent() != null){
@@ -119,6 +122,10 @@ public class AccountFragment extends Fragment {
     private void onClickOrderHistory(View view) {
         Intent i = new Intent(getActivity(), OrderHistoryActivity.class);
         i.putExtra("userId", userId);
+        startActivity(i);
+    }
+    private void onBtnItemManager(View view) {
+        Intent i = new Intent(getActivity(), ItemManagerActivity.class);
         startActivity(i);
     }
 }

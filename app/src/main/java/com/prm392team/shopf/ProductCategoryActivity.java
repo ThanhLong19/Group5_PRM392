@@ -28,7 +28,6 @@ public class ProductCategoryActivity extends AppCompatActivity {
 
     FFoodDB db = FFoodDB.getInstance(this);
     ProductDAO productDAO = db.productDAO();
-    //CategoryDAO categoryDAO = db.categoryDAO();
 
     private Category mCate;
 
