@@ -3,7 +3,9 @@ package com.prm392team.shopf.RoomDB;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.prm392team.shopf.Entity.Product;
 import com.prm392team.shopf.Entity.User;
@@ -33,4 +35,6 @@ public interface ProductDAO {
 
     @Delete
     void deleteProduct(Product products);
+    @Update
+    void update(Product product);
 }
