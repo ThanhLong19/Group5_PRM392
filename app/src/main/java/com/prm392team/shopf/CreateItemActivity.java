@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,10 +27,18 @@ public class CreateItemActivity extends AppCompatActivity {
     EditText productPrice;
     EditText productDiscount;
     EditText productImage;
-    EditText productCategory;
-
     Button btnCreate;
     FFoodDB db;
+
+    List<Category> listCate;
+    String[] categorys;
+    int[] cateIDs;
+
+    String selectedCateName;
+    int selectedCateID;
+
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +47,27 @@ public class CreateItemActivity extends AppCompatActivity {
 
         bindingView();
 
-        btnCreate = findViewById(R.id.btnCreate);
+        categorys = new String[listCate.size()];
+        cateIDs = new int[listCate.size()];
 
+        for (int i=0; i<listCate.size(); i++){
+            categorys[i] = listCate.get(i).getCategoryName();
+            cateIDs[i] = listCate.get(i).getCategoryId();
+        }
+
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_item_category, categorys);
+        autoCompleteTextView.setAdapter(arrayAdapter);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedCateName = parent.getItemAtPosition(position).toString();
+                selectedCateID = cateIDs[position];
+                Toast.makeText(CreateItemActivity.this, "Item: " + selectedCateName, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        btnCreate = findViewById(R.id.btnCreate);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,36 +102,25 @@ public class CreateItemActivity extends AppCompatActivity {
                     startActivity(new Intent(CreateItemActivity.this, CreateItemActivity.class));
                 }
 
-                int categoryID = 0;
+                double discount = 0;
                 try {
-                    categoryID = Integer.parseInt(productCategory.getText().toString());
-                }catch (Exception ex){
-                    Toast.makeText(CreateItemActivity.this, "Error Category" , Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(CreateItemActivity.this, CreateItemActivity.class));
-                }
-
-                int count = 0;
-                List<Category> listCate = new ArrayList<Category>();
-                listCate = db.categoryDAO().getAllCategory();
-                for (int i=0; i <= listCate.size(); i++){
-                    if(listCate.get(i).getCategoryId() == categoryID){
-                        count++;
-                        break;
+                    discount = Double.parseDouble(productDiscount.getText().toString());
+                    if(discount > 0){
+                        Toast.makeText(CreateItemActivity.this, "Discount < 1" , Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(CreateItemActivity.this, CreateItemActivity.class));
                     }
-                }
-
-                if(count == 0){
-                    Toast.makeText(CreateItemActivity.this, "Can not add Product with Category = " +  categoryID, Toast.LENGTH_SHORT).show();
+                }catch (Exception ex){
+                    Toast.makeText(CreateItemActivity.this, "Error Discount" , Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CreateItemActivity.this, CreateItemActivity.class));
                 }
 
                 product.setProductName(productName.getText().toString());
+                product.setQuantity(quantity);
                 product.setDescription(productDescription.getText().toString());
                 product.setPrice(price);
-                product.setQuantity(quantity);
-                product.setCategoryIds(categoryID);
-                product.setDescription(productDiscount.getText().toString());
+                product.setDiscount(discount);
                 product.setImage(productImage.getText().toString());
+                product.setCategoryIds(selectedCateID);
                 db.productDAO().insertProduct(product);
             }
         });
@@ -115,7 +134,11 @@ public class CreateItemActivity extends AppCompatActivity {
         productPrice = findViewById(R.id.itemPrice);
         productDiscount = findViewById(R.id.itemDiscount);
         productImage = findViewById(R.id.itemImage);
-        productCategory = findViewById(R.id.itemCategory);
+//        productCategory = findViewById(R.id.itemCategory);
+
+        listCate = db.categoryDAO().getAllCategory();
+
+        autoCompleteTextView = findViewById(R.id.autolistItemCategory);
 
     }
 }

@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,17 +29,44 @@ public class UpdateItemActivity extends AppCompatActivity {
     EditText productPrice;
     EditText productDiscount;
     EditText productImage;
-    EditText productCategory;
 
     Button btnUpdateItem;
 
     FFoodDB db;
+
+    List<Category> listCate;
+    String[] categorys;
+    int[] cateIDs;
+
+    String selectedCateName;
+    int selectedCateID;
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_item);
         bindingView();
+
+        categorys = new String[listCate.size()];
+        cateIDs = new int[listCate.size()];
+
+        for (int i=0; i<listCate.size(); i++){
+            categorys[i] = listCate.get(i).getCategoryName();
+            cateIDs[i] = listCate.get(i).getCategoryId();
+        }
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_item_category, categorys);
+        autoCompleteTextView.setAdapter(arrayAdapter);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedCateName = parent.getItemAtPosition(position).toString();
+                selectedCateID = cateIDs[position];
+                Toast.makeText(UpdateItemActivity.this, "Item: " + selectedCateName, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Intent intent = getIntent();
         productID = intent.getIntExtra("id", 0);
         Product product = new Product();
@@ -47,10 +77,8 @@ public class UpdateItemActivity extends AppCompatActivity {
         productPrice.setText(String.valueOf(product.getPrice()));
         productDiscount.setText(String.valueOf(product.getDiscount()));
         productImage.setText(product.getImage());
-        productCategory.setText(String.valueOf(product.getCategoryIds()));
 
         btnUpdateItem = findViewById(R.id.btnUpdateProduct);
-
         btnUpdateItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,35 +113,25 @@ public class UpdateItemActivity extends AppCompatActivity {
                     startActivity(new Intent(UpdateItemActivity.this, CreateItemActivity.class));
                 }
 
-                int categoryID = 0;
+                double discount = 0;
                 try {
-                    categoryID = Integer.parseInt(productCategory.getText().toString());
-                }catch (Exception ex){
-                    Toast.makeText(UpdateItemActivity.this, "Error Category" , Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(UpdateItemActivity.this, CreateItemActivity.class));
-                }
-
-                int count = 0;
-                List<Category> listCate = new ArrayList<Category>();
-                listCate = db.categoryDAO().getAllCategory();
-                for (int i=0; i <= listCate.size(); i++){
-                    if(listCate.get(i).getCategoryId() == categoryID){
-                        count++;
-                        break;
+                    discount = Double.parseDouble(productDiscount.getText().toString());
+                    if(discount > 0){
+                        Toast.makeText(UpdateItemActivity.this, "Discount < 1" , Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UpdateItemActivity.this, CreateItemActivity.class));
                     }
-                }
-
-                if(count == 0){
-                    Toast.makeText(UpdateItemActivity.this, "Can not add Product with Category = " +  categoryID, Toast.LENGTH_SHORT).show();
+                }catch (Exception ex){
+                    Toast.makeText(UpdateItemActivity.this, "Error Discount" , Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(UpdateItemActivity.this, CreateItemActivity.class));
                 }
+
                 product.setProductId(productID);
                 product.setProductName(productName.getText().toString());
                 product.setDescription(productDescription.getText().toString());
                 product.setPrice(price);
                 product.setQuantity(quantity);
-                product.setCategoryIds(categoryID);
-                product.setDescription(productDiscount.getText().toString());
+                product.setCategoryIds(selectedCateID);
+                product.setDiscount(discount);
                 product.setImage(productImage.getText().toString());
                 db.productDAO().update(product);
             }
@@ -123,14 +141,17 @@ public class UpdateItemActivity extends AppCompatActivity {
 
     private void bindingView(){
 
+        db = FFoodDB.getInstance(this);
+
         productName = findViewById(R.id.itemName);
         productQuantity = findViewById(R.id.itemQuantity);
         productDescription = findViewById(R.id.itemDescription);
         productPrice = findViewById(R.id.itemPrice);
         productDiscount = findViewById(R.id.itemDiscount);
         productImage = findViewById(R.id.itemImage);
-        productCategory = findViewById(R.id.itemCategory);
-        db = FFoodDB.getInstance(this);
+
+        listCate = db.categoryDAO().getAllCategory();
+        autoCompleteTextView = findViewById(R.id.autoItemCategory);
     }
 
 }

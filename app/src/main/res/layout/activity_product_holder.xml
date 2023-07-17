@@ -46,6 +46,20 @@
         app:layout_constraintStart_toEndOf="@+id/imgListP"
         app:layout_constraintTop_toBottomOf="@+id/tvNameListP" />
 
+    <TextView
+        android:id="@+id/tvCateID"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:text="1"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/imgListP"
+        app:layout_constraintStart_toEndOf="@+id/imgListP"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameListP" />
+
     <Button
         android:id="@+id/btnUpdateItem"
         android:layout_width="100dp"
@@ -84,8 +98,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddListP"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintEnd_toStartOf="@+id/btnUpdateItem"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
