@@ -27,6 +27,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
     private TextView txtProductName;
     private TextView txtDescription;
     private TextView txtPrice;
+    private TextView txtCateID;
     private ImageView txtImage;
     FFoodDB db;
     ProductDAO productDAO;
@@ -46,6 +47,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
         txtDescription = itemView.findViewById((R.id.tvDesListP));
         txtPrice = itemView.findViewById((R.id.tvPriceListP));
         txtImage = itemView.findViewById((R.id.imgListP));
+        txtCateID = itemView.findViewById((R.id.tvCateID));
 
         db = FFoodDB.getInstance(itemView.getContext());
         productDAO = db.productDAO();
@@ -73,6 +75,8 @@ public class ProductHolder extends RecyclerView.ViewHolder {
         String price = Double.toString(item.getPrice());
         txtPrice.setText(price);
         txtDescription.setText((item.getDescription()));
+        String cateID = Integer.toString(item.getCategoryIds());
+        txtCateID.setText(cateID);
     }
 
     public void setProductID(int id){
