@@ -84,7 +84,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="197dp"
+        android:layout_height="250dp"
         android:background="#00FFFFFF"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -182,6 +182,35 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/orderstatusIc"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemManagerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_beige">
+
+            <ImageView
+                android:id="@+id/itemManagerIc"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_setting"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/itemManagertxt"
+                android:layout_width="314dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="5dp"
+                android:text= "Quản lý sản phẩm"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/itemManagerIc"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
