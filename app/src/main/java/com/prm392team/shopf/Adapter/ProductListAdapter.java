@@ -1,5 +1,6 @@
 package com.prm392team.shopf.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return new ProductListAdapter.ViewHolder(view);
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
         holder.tvNameListP.setText(product.get(position).getProductName());

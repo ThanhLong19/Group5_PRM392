@@ -1,5 +1,6 @@
 package com.prm392team.shopf.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvProduct.setText(product.get(position).getProductName());
         //holder.imgProduct.setImageResource(product.get(position).getTitle());
         holder.tvPrice.setText(String.valueOf(product.get(position).getPrice()));

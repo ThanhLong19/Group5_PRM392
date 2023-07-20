@@ -62,15 +62,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
             int orderId = orderDAO.getAllOrder().get(position).getOrderId();
             orderDAO.deleteOrder(orderId);
             adapter.reLoad();
-//
-//            // Gọi phương thức xóa đơn hàng trong cơ sở dữ liệu bằng OrderDAO
-//            deleteOrderFromDatabase(orderId);
-//
-//            // Xóa đơn hàng khỏi danh sách dữ liệu trong Adapter
-//            db.remove(position);
-//            notifyItemRemoved(position);
 
-            // Hiển thị thông báo cho người dùng (nếu cần)
             Toast.makeText(context, "Đã xóa đơn hàng", Toast.LENGTH_SHORT).show();
         }
     }
