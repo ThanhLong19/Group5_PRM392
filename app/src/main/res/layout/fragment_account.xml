@@ -40,12 +40,44 @@
                 android:layout_width="314dp"
                 android:layout_height="19dp"
                 android:layout_marginLeft="5dp"
-                android:text="Thiết  lập tài khoản"
+                android:text="Thiết lập tài khoản"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/accountManagerIc"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/changePw2"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_beige">
+
+            <ImageView
+                android:id="@+id/changePw"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/acc_manager_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/changePw1"
+                android:layout_width="314dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="5dp"
+                android:text="Thay đổi mật khẩu"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/changePw"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,7 +149,7 @@
                 android:layout_width="314dp"
                 android:layout_height="19dp"
                 android:layout_marginLeft="5dp"
-                android:text="Lịch sử mua hàng"
+                android:text="Danh sách mua hàng"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -177,7 +209,7 @@
                 android:layout_width="314dp"
                 android:layout_height="19dp"
                 android:layout_marginLeft="5dp"
-                android:text="Tình trạng đơn hàng"
+                android:text="Tình trạng nhận hàng"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -206,7 +238,7 @@
                 android:layout_width="314dp"
                 android:layout_height="19dp"
                 android:layout_marginLeft="5dp"
-                android:text= "Quản lý sản phẩm"
+                android:text= "Quản lí sản phẩm"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

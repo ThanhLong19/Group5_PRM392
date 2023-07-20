@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.prm392team.shopf.AccountActivity;
+import com.prm392team.shopf.ChangePwActivity;
 import com.prm392team.shopf.Fragment.OrderCompleteFragment;
 import com.prm392team.shopf.Fragment.OrderShippingFragment;
 import com.prm392team.shopf.ItemManagerActivity;
@@ -36,6 +37,7 @@ public class AccountFragment extends Fragment {
     private ConstraintLayout accountManager;
     private ConstraintLayout farvoriteProduct;
     private ConstraintLayout orderStatus;
+    private ConstraintLayout changePw;
     private ConstraintLayout btnLogout;
     private  ConstraintLayout btnItemManager;
     private TextView txtusername;
@@ -73,6 +75,7 @@ public class AccountFragment extends Fragment {
         farvoriteProduct = view.findViewById((R.id.favoriteProductBtn));
         orderStatus = view.findViewById((R.id.orderStatusBtn));
         btnLogout = view.findViewById((R.id.btnLogout));
+        changePw = view.findViewById((R.id.changePw2));
         txtusername = view.findViewById((R.id.txtusername));
         imgAva = view.findViewById((R.id.imgAva));
         btnItemManager = view.findViewById(R.id.itemManagerBtn);
@@ -86,12 +89,18 @@ public class AccountFragment extends Fragment {
         orderStatus.setOnClickListener(this::onClickViewOrderStatus);
         btnLogout.setOnClickListener(this::onBtnLogoutClick);
         btnItemManager.setOnClickListener(this::onBtnItemManager);
-
+        changePw.setOnClickListener(this::onClickChangePw);
 
         if(getActivity().getIntent() != null){
             userId = getActivity().getIntent().getIntExtra("userIdLogin", 0);
         }
 
+    }
+
+    private void onClickChangePw(View view) {
+        Intent i = new Intent(getActivity(), ChangePwActivity.class);
+        i.putExtra("userId", userId);
+        startActivity(i);
     }
 
     private void onBtnLogoutClick(View view) {
