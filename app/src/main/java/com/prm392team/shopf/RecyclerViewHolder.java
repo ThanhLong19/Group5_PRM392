@@ -6,22 +6,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.prm392team.shopf.Adapter.RecyclerViewAdapter;
 import com.prm392team.shopf.Entity.Product;
 import com.prm392team.shopf.R;
 import com.prm392team.shopf.Entity.Order;
 import com.prm392team.shopf.RoomDB.FFoodDB;
+import com.prm392team.shopf.RoomDB.OrderDAO;
 import com.prm392team.shopf.RoomDB.ProductDAO;
 
 import java.util.ArrayList;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
-    private final Context c;
+    private Context context;
     private TextView txtFname;
     private TextView txtFprice;
     private TextView txtTotalProduct;
@@ -30,7 +33,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
     private int orderId;
     private  float total = 0;
     private Button viewOrderbtn;
+    private Button btncancer;
     FFoodDB db;
+    private RecyclerViewAdapter adapter;
+
+
     ProductDAO productDAO;
     private void bindingView(View itemView) {
         imgData = itemView.findViewById(R.id.first_item_image);
@@ -39,14 +46,35 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
         txtTotalProduct = itemView.findViewById((R.id.total_item));
         txtTotalPrice = itemView.findViewById((R.id.total_price_order));
         viewOrderbtn = itemView.findViewById((R.id.btnViewAll));
+        btncancer = itemView.findViewById(R.id.btnCancer);
+        btncancer.setOnClickListener(this::onDeleteOrder);
 
         db = FFoodDB.getInstance(itemView.getContext());
         productDAO = db.productDAO();
     }
 
+    private void onDeleteOrder(View view) {
+        int position = getAdapterPosition();
+
+        if (position != RecyclerView.NO_POSITION) {
+//            int orderId = db.get(position).getOrderId();
+            OrderDAO orderDAO = db.orderDAO();
+            int orderId = orderDAO.getAllOrder().get(position).getOrderId();
+            orderDAO.deleteOrder(orderId);
+            adapter.reLoad();
+
+            Toast.makeText(context, "Đã xóa đơn hàng", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void deleteOrderFromDatabase(int orderId) {
+
+    }
+
     private void bindingAction(View itemView) {
         itemView.setOnClickListener(this);
         viewOrderbtn.setOnClickListener(this::swapScreen);
+        
     }
 
 
@@ -71,9 +99,10 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
 
     }
 
-    public RecyclerViewHolder(@NonNull View itemView, Context c) {
+    public RecyclerViewHolder(@NonNull View itemView, Context context, RecyclerViewAdapter adapter) {
         super(itemView);
-        this.c = c;
+        this.context = context;
+        this.adapter = adapter;
         bindingView(itemView);
         bindingAction(itemView);
     }
@@ -84,10 +113,10 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder
     }
 
     private void swapScreen(View view){
-        Intent i = new Intent(c, OrderDetailActivity.class);
+        Intent i = new Intent(context, OrderDetailActivity.class);
         i.putExtra("id", orderId);
         i.putExtra("total", total);
-        c.startActivity(i);
+        context.startActivity(i);
 
     }
 }

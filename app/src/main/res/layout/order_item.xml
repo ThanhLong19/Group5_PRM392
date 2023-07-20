@@ -68,19 +68,19 @@
                 android:backgroundTint="#77DCD2"
                 android:text="View Order"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnRebuy"
+                app:layout_constraintEnd_toStartOf="@+id/btnCancer"
                 app:layout_constraintHorizontal_bias="0.8"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/first_item_image"
                 app:layout_constraintVertical_bias="0.8" />
 
             <Button
-                android:id="@+id/btnRebuy"
+                android:id="@+id/btnCancer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:backgroundTint="#77DCD2"
-                android:text="Buy Again"
+                android:text="Cancer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.942"

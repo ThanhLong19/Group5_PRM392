@@ -1,5 +1,6 @@
 package com.prm392team.shopf.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class OrderCancelFragment extends Fragment {
 
+    Context context;
     private RecyclerView rcv;
     private List<Order> data;
     FFoodDB db;
@@ -33,6 +35,7 @@ public class OrderCancelFragment extends Fragment {
     private void bindingView(){
         rcv = (RecyclerView) getView().findViewById(R.id.rcv_cancel);
         data = new ArrayList<>();
+        context = getContext();
         db = FFoodDB.getInstance(getContext());
         orderDAO = db.orderDAO();
         userDAO = db.userDAO();
@@ -75,7 +78,7 @@ public class OrderCancelFragment extends Fragment {
         bindingView();
         bindingAction();
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(data);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(data, context);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         rcv.setLayoutManager(layoutManager);
         rcv.setAdapter(adapter);

@@ -33,3 +33,4 @@ public interface UserDAO {
     @Query("UPDATE  user SET password = :password WHERE userId = :id")
     void changePw(String password, int id);
 }
+
